@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { criarCategoriaEntrada } from "../services/categoriaEntradaService";
+import { criarCategoriaEntrada } from "../services/CategoriaEntradaService";
 
 interface CategoriaEntradaFormProps {
     onCategoriaEntradaCriada: () => void;

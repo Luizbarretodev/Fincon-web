@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { criarEntrada } from '../services/entradaService';
+import { criarEntrada } from '../services/EntradaService';
 import { listarContas } from '../services/contaService';
 import { listarCategoriasEntrada } from '../services/categoriaEntradaService';
 import type { Conta } from '../types/conta';

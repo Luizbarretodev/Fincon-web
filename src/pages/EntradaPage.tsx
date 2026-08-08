@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { listarEntradas } from '../services/entradaService';
+import { listarEntradas } from '../services/EntradaService';
 import type { Entrada } from '../types/entrada';
 import EntradaForm from '../components/EntradaForm';
 import EntradaList from '../components/EntradaList';
