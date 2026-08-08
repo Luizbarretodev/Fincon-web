@@ -1,6 +1,7 @@
 import ContasPage from './pages/ContasPage';
 import CategoriasEntradaPage from './pages/CategoriasEntradaPage';
 import CategoriasSaidaPage from './pages/CategoriasSaidaPage';
+import EntradaPage from './pages/EntradaPage';
 import './App.css';
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
       <ContasPage />
       <CategoriasEntradaPage />
       <CategoriasSaidaPage />
+      <EntradaPage />
     </div>
   );
 }
