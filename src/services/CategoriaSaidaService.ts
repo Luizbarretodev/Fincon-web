@@ -1,6 +1,6 @@
 import type { CategoriaSaida, CriarCategoriaSaidaRequest} from '../types/categoria';
 
-const API_URL = 'https://localhost:7211/api';
+import { API_URL } from '../config/api';
 
 export async function listarCategoriasSaida(): Promise<CategoriaSaida[]> {
     const response = await fetch(`${API_URL}/CategoriasSaida`, {

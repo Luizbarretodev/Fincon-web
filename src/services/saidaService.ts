@@ -1,6 +1,6 @@
 import type { Saida, CriarSaidaRequest } from '../types/saida';
 
-const API_URL = 'https://localhost:7211/api';
+import { API_URL } from '../config/api';
 
 export async function listarSaidas(): Promise<Saida[]> {
   const response = await fetch(`${API_URL}/Saidas`, {

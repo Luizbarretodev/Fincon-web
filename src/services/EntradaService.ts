@@ -1,6 +1,6 @@
 import type { Entrada, CriarEntradaRequest } from '../types/entrada';
 
-const API_URL = 'https://localhost:7211/api';
+import { API_URL } from '../config/api';
 
 export async function listarEntradas(): Promise<Entrada[]> {
   const response = await fetch(`${API_URL}/Entradas`, {
