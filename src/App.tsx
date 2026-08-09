@@ -3,8 +3,7 @@ import CategoriasEntradaPage from './pages/CategoriasEntradaPage';
 import CategoriasSaidaPage from './pages/CategoriasSaidaPage';
 import EntradaPage from './pages/EntradasPage';
 import SaidaPage from './pages/SaidasPage';
-// ...
-<SaidaPage />
+import RecorrenciasPage from './pages/RecorrenciasPage';
 import './App.css';
 
 function App() {
@@ -15,6 +14,8 @@ function App() {
       <CategoriasEntradaPage />
       <CategoriasSaidaPage />
       <EntradaPage />
+      <SaidaPage />
+      <RecorrenciasPage />
     </div>
   );
 }
