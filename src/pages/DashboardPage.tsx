@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { listarEntradas } from '../services/entradaService';
 import { listarSaidas } from '../services/saidaService';
+import { formatarMoeda } from '../utils/formatters';
 import type { Entrada } from '../types/entrada';
 import type { Saida } from '../types/saida';
 
@@ -43,19 +44,19 @@ function DashboardPage() {
       <div style={{ display: 'flex', gap: '16px' }}>
         <div style={{ border: '1px solid #ccc', padding: '16px', borderRadius: '8px' }}>
           <p>Receita</p>
-          <h2>R$ {totalReceitas.toFixed(2)}</h2>
+          <h2><h2>{formatarMoeda(totalReceitas)}</h2></h2>
           <small>{entradas.length} entradas</small>
         </div>
 
         <div style={{ border: '1px solid #ccc', padding: '16px', borderRadius: '8px' }}>
           <p>Despesas</p>
-          <h2>R$ {totalDespesas.toFixed(2)}</h2>
+         <h2>{formatarMoeda(totalDespesas)}</h2>
           <small>{saidas.length} saídas</small>
         </div>
 
         <div style={{ border: '1px solid #ccc', padding: '16px', borderRadius: '8px' }}>
           <p>Saldo</p>
-          <h2>R$ {saldo.toFixed(2)}</h2>
+          <h2>{formatarMoeda(saldo)}</h2>
         </div>
       </div>
     </div>
