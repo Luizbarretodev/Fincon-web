@@ -1,4 +1,5 @@
 import { formatarMoeda } from '../utils/formatters';
+import { formatarData } from '../utils/formatters';
 import type { Saida } from '../types/saida';
 
 interface SaidaListProps {
@@ -10,7 +11,7 @@ function SaidaList({ saidas }: SaidaListProps) {
     <ul>
       {saidas.map((saida) => (
         <li key={saida.id}>
-          {saida.descricao} — {formatarMoeda(saida.valor)} — {saida.data}
+          {saida.descricao} — {formatarMoeda(saida.valor)} — {formatarData(saida.data)}
         </li>
       ))}
     </ul>
