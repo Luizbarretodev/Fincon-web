@@ -1,22 +1,26 @@
+import { Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+import DashboardPage from './pages/DashboardPage';
 import ContasPage from './pages/ContasPage';
 import CategoriasEntradaPage from './pages/CategoriasEntradaPage';
 import CategoriasSaidaPage from './pages/CategoriasSaidaPage';
-import EntradaPage from './pages/EntradasPage';
-import SaidaPage from './pages/SaidasPage';
+import EntradasPage from './pages/EntradasPage';
+import SaidasPage from './pages/SaidasPage';
 import RecorrenciasPage from './pages/RecorrenciasPage';
-import './App.css';
 
 function App() {
   return (
-    <div>
-      <h1>Fincon</h1>
-      <ContasPage />
-      <CategoriasEntradaPage />
-      <CategoriasSaidaPage />
-      <EntradaPage />
-      <SaidaPage />
-      <RecorrenciasPage />
-    </div>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route path="/" element={<DashboardPage />} />
+        <Route path="/contas" element={<ContasPage />} />
+        <Route path="/categorias-entrada" element={<CategoriasEntradaPage />} />
+        <Route path="/categorias-saida" element={<CategoriasSaidaPage />} />
+        <Route path="/entradas" element={<EntradasPage />} />
+        <Route path="/saidas" element={<SaidasPage />} />
+        <Route path="/recorrencias" element={<RecorrenciasPage />} />
+      </Route>
+    </Routes>
   );
 }
 
