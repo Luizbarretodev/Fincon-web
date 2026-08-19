@@ -4,9 +4,10 @@ import { excluirConta } from '../services/contaService';
 interface ContaListProps {
   contas: Conta[];
   onContaAlterada: () => void;
+  onEditar: (conta: Conta) => void;
 }
 
-function ContaList({ contas, onContaAlterada }: ContaListProps) {
+function ContaList({ contas, onContaAlterada, onEditar }: ContaListProps) {
   async function handleExcluir(id: string) {
     try {
       await excluirConta(id);
@@ -21,6 +22,7 @@ function ContaList({ contas, onContaAlterada }: ContaListProps) {
       {contas.map((conta) => (
         <li key={conta.id}>
           {conta.nome}
+          <button onClick={() => onEditar(conta)}>Editar</button>
           <button onClick={() => handleExcluir(conta.id)}>Excluir</button>
         </li>
       ))}
