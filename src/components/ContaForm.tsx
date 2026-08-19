@@ -7,7 +7,7 @@ interface ContaFormProps {
   onSalvar: () => void;
 }
 
-function ContaForm({ contaEditando, onSalvar }: ContaFormProps) {
+function ContaForm({ contaEditando, onSalvar }: ContaFormProps) { 
   const [nome, setNome] = useState('');
 
   useEffect(() => {
