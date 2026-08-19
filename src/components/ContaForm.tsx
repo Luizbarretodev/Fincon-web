@@ -1,24 +1,38 @@
-import { useState } from "react";
-import { criarConta } from "../services/contaService";
+import { useState, useEffect } from 'react';
+import { criarConta, atualizarConta } from '../services/contaService';
+import type { Conta } from '../types/conta';
 
 interface ContaFormProps {
-    onContaCriada: () => void;
+  contaEditando: Conta | null;
+  onSalvar: () => void;
 }
 
-function ContaForm({ onContaCriada }: ContaFormProps) {
-    const [nome, setNome] = useState('');
+function ContaForm({ contaEditando, onSalvar }: ContaFormProps) {
+  const [nome, setNome] = useState('');
 
-    async function handleSubmit() {
-        try {
-            await criarConta({ nome });
-            setNome('');
-            onContaCriada();
-        } catch (erro) {
-            console.error(erro);
-        }
+  useEffect(() => {
+    if (contaEditando) {
+      setNome(contaEditando.nome);
+    } else {
+      setNome('');
     }
+  }, [contaEditando]);
 
-    return (
+  async function handleSubmit() {
+    try {
+      if (contaEditando) {
+        await atualizarConta(contaEditando.id, { nome });
+      } else {
+        await criarConta({ nome });
+      }
+      setNome('');
+      onSalvar();
+    } catch (erro) {
+      console.error(erro);
+    }
+  }
+
+  return (
     <div>
       <input
         type="text"
@@ -26,7 +40,9 @@ function ContaForm({ onContaCriada }: ContaFormProps) {
         onChange={(e) => setNome(e.target.value)}
         placeholder="Nome da conta"
       />
-      <button onClick={handleSubmit}>Criar Conta</button>
+      <button onClick={handleSubmit}>
+        {contaEditando ? 'Salvar Edição' : 'Criar Conta'}
+      </button>
     </div>
   );
 }

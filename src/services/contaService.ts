@@ -29,15 +29,6 @@ export async function criarConta(request: CriarContaRequest): Promise<Conta> {
 
     return response.json();
 }
-export async function excluirConta(id: string): Promise<void> {
-  const response = await fetch(`${API_URL}/Contas/${id}`, {
-    method: 'DELETE',
-  });
-
-  if (!response.ok) {
-    throw new Error('Erro ao excluir conta');
-  }
-}
 
 export async function atualizarConta(id: string, request: CriarContaRequest): Promise<Conta> {
   const response = await fetch(`${API_URL}/Contas/${id}`, {
@@ -53,4 +44,14 @@ export async function atualizarConta(id: string, request: CriarContaRequest): Pr
   }
 
   return response.json();
+}
+
+export async function excluirConta(id: string): Promise<void> {
+  const response = await fetch(`${API_URL}/Contas/${id}`, {
+    method: 'DELETE',
+  });
+
+  if (!response.ok) {
+    throw new Error('Erro ao excluir conta');
+  }
 }
