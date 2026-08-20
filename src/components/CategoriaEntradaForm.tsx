@@ -1,32 +1,37 @@
-import { useState } from "react";
-import { criarCategoriaEntrada } from "../services/CategoriaEntradaService";
+import { useState, useEffect } from 'react';
+import { criarCategoriaEntrada, atualizarCategoriaEntrada } from '../services/CategoriaEntradaService';
+import type { CategoriaEntrada } from '../types/categoria';
 
 interface CategoriaEntradaFormProps {
-    onCategoriaEntradaCriada: () => void;
+  categoriaEditando: CategoriaEntrada | null;
+  onSalvar: () => void;
 }
 
-function CategoriaEntradaForm({ onCategoriaEntradaCriada }: CategoriaEntradaFormProps) {
-    const [nome, setNome] = useState('');
+function CategoriaEntradaForm({ categoriaEditando, onSalvar }: CategoriaEntradaFormProps) {
+  const [nome, setNome] = useState('');
 
-    async function handleSubmit() {
-        try {
-            await criarCategoriaEntrada({ nome });
-            setNome('');
-            onCategoriaEntradaCriada();
-        } catch (erro) {
-            console.error(erro);
-        }
+  useEffect(() => {
+    setNome(categoriaEditando ? categoriaEditando.nome : '');
+  }, [categoriaEditando]);
+
+  async function handleSubmit() {
+    try {
+      if (categoriaEditando) {
+        await atualizarCategoriaEntrada(categoriaEditando.id, { nome });
+      } else {
+        await criarCategoriaEntrada({ nome });
+      }
+      setNome('');
+      onSalvar();
+    } catch (erro) {
+      console.error(erro);
     }
+  }
 
-    return (
+  return (
     <div>
-      <input
-        type="text"
-        value={nome}
-        onChange={(e) => setNome(e.target.value)}
-        placeholder="Nome da categoria"
-      />
-      <button onClick={handleSubmit}>Criar Categoria</button>
+      <input type="text" value={nome} onChange={(e) => setNome(e.target.value)} placeholder="Nome da categoria" />
+      <button onClick={handleSubmit}>{categoriaEditando ? 'Salvar Edição' : 'Criar Categoria'}</button>
     </div>
   );
 }
