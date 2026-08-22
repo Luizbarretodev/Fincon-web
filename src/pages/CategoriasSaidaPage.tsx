@@ -5,28 +5,30 @@ import CategoriaSaidaForm from '../components/CategoriaSaidaForm';
 import CategoriaSaidaList from '../components/CategoriaSaidaList';
 
 function CategoriasSaidaPage() {
-    const [categoriasSaida, setCategoriasSaida] = useState<CategoriaSaida[]>([]);
+  const [categorias, setCategorias] = useState<CategoriaSaida[]>([]);
+  const [categoriaEditando, setCategoriaEditando] = useState<CategoriaSaida | null>(null);
 
-    useEffect(() => {
-        carregarCategoriasSaida();
-    }, []);
+  useEffect(() => {
+    carregarCategorias();
+  }, []);
 
-    async function carregarCategoriasSaida() {
-        try {
-            const dados = await listarCategoriasSaida();
-            setCategoriasSaida(dados);
-        } catch (erro) {
-            console.error(erro);
-        }
-    }
+  async function carregarCategorias() {
+    const dados = await listarCategoriasSaida();
+    setCategorias(dados);
+  }
 
-    return (
-        <div>
-            <h2>Categorias de saida cadastradas</h2>
-            <CategoriaSaidaForm onCategoriaSaidaCriada={carregarCategoriasSaida} />
-            <CategoriaSaidaList categoriasSaida={categoriasSaida} />
-        </div>
-    );
+  function handleSalvar() {
+    setCategoriaEditando(null);
+    carregarCategorias();
+  }
+
+  return (
+    <div>
+      <h2>Categorias de Saída cadastradas</h2>
+      <CategoriaSaidaForm categoriaEditando={categoriaEditando} onSalvar={handleSalvar} />
+      <CategoriaSaidaList categoriasSaida={categorias} onCategoriaSaidaAlterada={carregarCategorias} onEditar={setCategoriaEditando} />
+    </div>
+  );
 }
 
 export default CategoriasSaidaPage;
