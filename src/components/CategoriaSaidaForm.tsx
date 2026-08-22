@@ -1,32 +1,37 @@
-import { useState } from "react";
-import { criarCategoriaSaida } from "../services/categoriaSaidaService.ts";
+import { useState, useEffect } from 'react';
+import { criarCategoriaSaida, atualizarCategoriaSaida } from '../services/categoriaSaidaService';
+import type { CategoriaSaida } from '../types/categoria';
 
 interface CategoriaSaidaFormProps {
-    onCategoriaSaidaCriada: () => void;
+  categoriaEditando: CategoriaSaida | null;
+  onSalvar: () => void;
 }
 
-function CategoriaSaidaForm({ onCategoriaSaidaCriada }: CategoriaSaidaFormProps) {
-    const [nome, setNome] = useState('');
+function CategoriaSaidaForm({ categoriaEditando, onSalvar }: CategoriaSaidaFormProps) {
+  const [nome, setNome] = useState('');
 
-    async function handleSubmit() {
-        try {
-            await criarCategoriaSaida({ nome });
-            setNome('');
-            onCategoriaSaidaCriada();
-        } catch (erro) {
-            console.error(erro);
-        }
+  useEffect(() => {
+    setNome(categoriaEditando ? categoriaEditando.nome : '');
+  }, [categoriaEditando]);
+
+  async function handleSubmit() {
+    try {
+      if (categoriaEditando) {
+        await atualizarCategoriaSaida(categoriaEditando.id, { nome });
+      } else {
+        await criarCategoriaSaida({ nome });
+      }
+      setNome('');
+      onSalvar();
+    } catch (erro) {
+      console.error(erro);
     }
+  }
 
-    return (
+  return (
     <div>
-      <input
-        type="text"
-        value={nome}
-        onChange={(e) => setNome(e.target.value)}
-        placeholder="Nome da categoria"
-      />
-      <button onClick={handleSubmit}>Criar Categoria</button>
+      <input type="text" value={nome} onChange={(e) => setNome(e.target.value)} placeholder="Nome da categoria" />
+      <button onClick={handleSubmit}>{categoriaEditando ? 'Salvar Edição' : 'Criar Categoria'}</button>
     </div>
   );
 }
