@@ -29,3 +29,24 @@ export async function criarCategoriaSaida(request: CriarCategoriaSaidaRequest): 
 
     return response.json();
 }
+
+export async function atualizarCategoriaSaida(id: string, request: CriarCategoriaSaidaRequest): Promise<CategoriaSaida> {
+  const response = await fetch(`${API_URL}/CategoriasSaida/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(request),
+  });
+  if (!response.ok) {
+    throw new Error('Erro ao atualizar categoria');
+  }
+  return response.json();
+}
+
+export async function excluirCategoriaSaida(id: string): Promise<void> {
+  const response = await fetch(`${API_URL}/CategoriasSaida/${id}`, {
+    method: 'DELETE',
+  });
+  if (!response.ok) {
+    throw new Error('Erro ao excluir categoria');
+  }
+}
