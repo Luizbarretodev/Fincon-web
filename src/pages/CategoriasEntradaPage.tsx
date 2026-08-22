@@ -1,32 +1,34 @@
 import { useState, useEffect } from 'react';
-import { listarCategoriasEntrada } from '../services/CategoriaEntradaService';
+import { listarCategoriasEntrada } from '../services/categoriaEntradaService';
 import type { CategoriaEntrada } from '../types/categoria';
 import CategoriaEntradaForm from '../components/CategoriaEntradaForm';
 import CategoriaEntradaList from '../components/CategoriaEntradaList';
 
 function CategoriasEntradaPage() {
-    const [categoriasEntrada, setCategoriasEntrada] = useState<CategoriaEntrada[]>([]);
+  const [categorias, setCategorias] = useState<CategoriaEntrada[]>([]);
+  const [categoriaEditando, setCategoriaEditando] = useState<CategoriaEntrada | null>(null);
 
-    useEffect(() => {
-        carregarCategoriasEntrada();
-    }, []);
+  useEffect(() => {
+    carregarCategorias();
+  }, []);
 
-    async function carregarCategoriasEntrada() {
-        try {
-            const dados = await listarCategoriasEntrada();
-            setCategoriasEntrada(dados);
-        } catch (erro) {
-            console.error(erro);
-        }
-    }
+  async function carregarCategorias() {
+    const dados = await listarCategoriasEntrada();
+    setCategorias(dados);
+  }
 
-    return (
-        <div>
-            <h2>Categorias de entrada cadastradas</h2>
-            <CategoriaEntradaForm onCategoriaEntradaCriada={carregarCategoriasEntrada} />
-            <CategoriaEntradaList categoriasEntrada={categoriasEntrada} />
-        </div>
-    );
+  function handleSalvar() {
+    setCategoriaEditando(null);
+    carregarCategorias();
+  }
+
+  return (
+    <div>
+      <h2>Categorias de Entrada cadastradas</h2>
+      <CategoriaEntradaForm categoriaEditando={categoriaEditando} onSalvar={handleSalvar} />
+      <CategoriaEntradaList categoriasEntrada={categorias} onCategoriaEntradaAlterada={carregarCategorias} onEditar={setCategoriaEditando} />
+    </div>
+  );
 }
 
 export default CategoriasEntradaPage;
