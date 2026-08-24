@@ -1,32 +1,57 @@
-import { useState } from 'react';
-import { criarRecorrencia } from '../services/recorrenciaService';
+import { useState, useEffect } from 'react';
+import { criarRecorrencia, atualizarRecorrencia } from '../services/recorrenciaService';
+import type { Recorrencia } from '../types/recorrencia';
 import type { TipoRecorrencia } from '../types/enums';
 
 interface RecorrenciaFormProps {
-  onRecorrenciaCriada: () => void;
+  recorrenciaEditando: Recorrencia | null;
+  onSalvar: () => void;
 }
 
-function RecorrenciaForm({ onRecorrenciaCriada }: RecorrenciaFormProps) {
+function RecorrenciaForm({ recorrenciaEditando, onSalvar }: RecorrenciaFormProps) {
   const [descricao, setDescricao] = useState('');
   const [valorParcela, setValorParcela] = useState('');
   const [quantidadeParcelas, setQuantidadeParcelas] = useState('');
   const [dataInicio, setDataInicio] = useState('');
   const [tipo, setTipo] = useState<TipoRecorrencia>('Saida');
 
+  useEffect(() => {
+    if (recorrenciaEditando) {
+      setDescricao(recorrenciaEditando.descricao);
+      setValorParcela(String(recorrenciaEditando.valorParcela));
+      setQuantidadeParcelas(String(recorrenciaEditando.quantidadeParcelas));
+      setDataInicio(recorrenciaEditando.dataInicio);
+      setTipo(recorrenciaEditando.tipo);
+    } else {
+      setDescricao('');
+      setValorParcela('');
+      setQuantidadeParcelas('');
+      setDataInicio('');
+      setTipo('Saida');
+    }
+  }, [recorrenciaEditando]);
+
   async function handleSubmit() {
     try {
-      await criarRecorrencia({
+      const request = {
         descricao,
         valorParcela: Number(valorParcela),
         quantidadeParcelas: Number(quantidadeParcelas),
         dataInicio,
         tipo,
-      });
+      };
+
+      if (recorrenciaEditando) {
+        await atualizarRecorrencia(recorrenciaEditando.id, request);
+      } else {
+        await criarRecorrencia(request);
+      }
+
       setDescricao('');
       setValorParcela('');
       setQuantidadeParcelas('');
       setDataInicio('');
-      onRecorrenciaCriada();
+      onSalvar();
     } catch (erro) {
       console.error(erro);
     }
@@ -44,7 +69,7 @@ function RecorrenciaForm({ onRecorrenciaCriada }: RecorrenciaFormProps) {
         <option value="Entrada">Entrada</option>
       </select>
 
-      <button onClick={handleSubmit}>Criar Recorrência</button>
+      <button onClick={handleSubmit}>{recorrenciaEditando ? 'Salvar Edição' : 'Criar Recorrência'}</button>
     </div>
   );
 }
