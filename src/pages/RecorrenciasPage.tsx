@@ -6,6 +6,7 @@ import RecorrenciaList from '../components/RecorrenciaList';
 
 function RecorrenciasPage() {
   const [recorrencias, setRecorrencias] = useState<Recorrencia[]>([]);
+  const [recorrenciaEditando, setRecorrenciaEditando] = useState<Recorrencia | null>(null);
 
   useEffect(() => {
     carregarRecorrencias();
@@ -16,11 +17,16 @@ function RecorrenciasPage() {
     setRecorrencias(dados);
   }
 
+  function handleSalvar() {
+    setRecorrenciaEditando(null);
+    carregarRecorrencias();
+  }
+
   return (
     <div>
       <h2>Recorrências</h2>
-      <RecorrenciaForm onRecorrenciaCriada={carregarRecorrencias} />
-      <RecorrenciaList recorrencias={recorrencias} />
+      <RecorrenciaForm recorrenciaEditando={recorrenciaEditando} onSalvar={handleSalvar} />
+      <RecorrenciaList recorrencias={recorrencias} onRecorrenciaAlterada={carregarRecorrencias} onEditar={setRecorrenciaEditando} />
     </div>
   );
 }
