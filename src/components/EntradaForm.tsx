@@ -1,16 +1,18 @@
 import { useState, useEffect } from 'react';
-import { criarEntrada } from '../services/EntradaService';
+import { criarEntrada, atualizarEntrada } from '../services/entradaService';
 import { listarContas } from '../services/contaService';
 import { listarCategoriasEntrada } from '../services/categoriaEntradaService';
+import type { Entrada } from '../types/entrada';
 import type { Conta } from '../types/conta';
 import type { CategoriaEntrada } from '../types/categoria';
 import type { StatusTransacao } from '../types/enums';
 
 interface EntradaFormProps {
-  onEntradaCriada: () => void;
+  entradaEditando: Entrada | null;
+  onSalvar: () => void;
 }
 
-function EntradaForm({ onEntradaCriada }: EntradaFormProps) {
+function EntradaForm({ entradaEditando, onSalvar }: EntradaFormProps) {
   const [data, setData] = useState('');
   const [valor, setValor] = useState('');
   const [descricao, setDescricao] = useState('');
@@ -29,6 +31,23 @@ function EntradaForm({ onEntradaCriada }: EntradaFormProps) {
     carregarCategorias();
   }, []);
 
+  useEffect(() => {
+    if (entradaEditando) {
+      setData(entradaEditando.data.split('T')[0]);
+      setValor(String(entradaEditando.valor));
+      setDescricao(entradaEditando.descricao);
+      setStatus(entradaEditando.status);
+      setContaId(entradaEditando.contaId);
+      setCategoriaEntradaId(entradaEditando.categoriaEntradaId);
+    } else {
+      setData('');
+      setValor('');
+      setDescricao('');
+      setContaId('');
+      setCategoriaEntradaId('');
+    }
+  }, [entradaEditando]);
+
   async function carregarContas() {
     const dados = await listarContas();
     setContas(dados);
@@ -41,20 +60,27 @@ function EntradaForm({ onEntradaCriada }: EntradaFormProps) {
 
   async function handleSubmit() {
     try {
-      await criarEntrada({
+      const request = {
         data,
         valor: Number(valor),
         descricao,
         status,
         contaId,
         categoriaEntradaId,
-      });
+      };
+
+      if (entradaEditando) {
+        await atualizarEntrada(entradaEditando.id, request);
+      } else {
+        await criarEntrada(request);
+      }
+
       setData('');
       setValor('');
       setDescricao('');
       setContaId('');
       setCategoriaEntradaId('');
-      onEntradaCriada();
+      onSalvar();
     } catch (erro) {
       console.error(erro);
     }
@@ -85,7 +111,7 @@ function EntradaForm({ onEntradaCriada }: EntradaFormProps) {
         ))}
       </select>
 
-      <button onClick={handleSubmit}>Criar Entrada</button>
+      <button onClick={handleSubmit}>{entradaEditando ? 'Salvar Edição' : 'Criar Entrada'}</button>
     </div>
   );
 }
