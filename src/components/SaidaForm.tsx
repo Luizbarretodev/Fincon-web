@@ -1,16 +1,18 @@
 import { useState, useEffect } from 'react';
-import { criarSaida } from '../services/saidaService';
+import { criarSaida, atualizarSaida } from '../services/saidaService';
 import { listarContas } from '../services/contaService';
 import { listarCategoriasSaida } from '../services/categoriaSaidaService';
+import type { Saida } from '../types/saida';
 import type { Conta } from '../types/conta';
 import type { CategoriaSaida } from '../types/categoria';
 import type { StatusTransacao } from '../types/enums';
 
 interface SaidaFormProps {
-  onSaidaCriada: () => void;
+  saidaEditando: Saida | null;
+  onSalvar: () => void;
 }
 
-function SaidaForm({ onSaidaCriada }: SaidaFormProps) {
+function SaidaForm({ saidaEditando, onSalvar }: SaidaFormProps) {
   const [data, setData] = useState('');
   const [valor, setValor] = useState('');
   const [descricao, setDescricao] = useState('');
@@ -29,6 +31,23 @@ function SaidaForm({ onSaidaCriada }: SaidaFormProps) {
     carregarCategorias();
   }, []);
 
+  useEffect(() => {
+    if (saidaEditando) {
+      setData(saidaEditando.data.split('T')[0]);
+      setValor(String(saidaEditando.valor));
+      setDescricao(saidaEditando.descricao);
+      setStatus(saidaEditando.status);
+      setContaId(saidaEditando.contaId);
+      setCategoriaSaidaId(saidaEditando.categoriaSaidaId);
+    } else {
+      setData('');
+      setValor('');
+      setDescricao('');
+      setContaId('');
+      setCategoriaSaidaId('');
+    }
+  }, [saidaEditando]);
+
   async function carregarContas() {
     const dados = await listarContas();
     setContas(dados);
@@ -41,20 +60,27 @@ function SaidaForm({ onSaidaCriada }: SaidaFormProps) {
 
   async function handleSubmit() {
     try {
-      await criarSaida({
+      const request = {
         data,
         valor: Number(valor),
         descricao,
         status,
         contaId,
         categoriaSaidaId,
-      });
+      };
+
+      if (saidaEditando) {
+        await atualizarSaida(saidaEditando.id, request);
+      } else {
+        await criarSaida(request);
+      }
+
       setData('');
       setValor('');
       setDescricao('');
       setContaId('');
       setCategoriaSaidaId('');
-      onSaidaCriada();
+      onSalvar();
     } catch (erro) {
       console.error(erro);
     }
@@ -85,7 +111,7 @@ function SaidaForm({ onSaidaCriada }: SaidaFormProps) {
         ))}
       </select>
 
-      <button onClick={handleSubmit}>Criar Saída</button>
+      <button onClick={handleSubmit}>{saidaEditando ? 'Salvar Edição' : 'Criar Saída'}</button>
     </div>
   );
 }
