@@ -4,8 +4,9 @@ import type { Saida } from '../types/saida';
 import SaidaForm from '../components/SaidaForm';
 import SaidaList from '../components/SaidaList';
 
-function SaidaPage() {
+function SaidasPage() {
   const [saidas, setSaidas] = useState<Saida[]>([]);
+  const [saidaEditando, setSaidaEditando] = useState<Saida | null>(null);
 
   useEffect(() => {
     carregarSaidas();
@@ -16,13 +17,18 @@ function SaidaPage() {
     setSaidas(dados);
   }
 
+  function handleSalvar() {
+    setSaidaEditando(null);
+    carregarSaidas();
+  }
+
   return (
     <div>
       <h2>Saídas</h2>
-      <SaidaForm onSaidaCriada={carregarSaidas} />
-      <SaidaList saidas={saidas} />
+      <SaidaForm saidaEditando={saidaEditando} onSalvar={handleSalvar} />
+      <SaidaList saidas={saidas} onSaidaAlterada={carregarSaidas} onEditar={setSaidaEditando} />
     </div>
   );
 }
 
-export default SaidaPage;
+export default SaidasPage;
