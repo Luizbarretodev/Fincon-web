@@ -17,10 +17,7 @@ function SaidasPage() {
     setSaidas(dados);
   }
 
-  function handleSalvar() {
-    setSaidaEditando(null);
-    carregarSaidas();
-  }
+ 
 
   return (
     <div>
