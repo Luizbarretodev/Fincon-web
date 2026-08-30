@@ -1,5 +1,4 @@
 import type { Entrada, CriarEntradaRequest } from '../types/entrada';
-
 import { API_URL } from '../config/api';
 
 export async function listarEntradas(): Promise<Entrada[]> {
