@@ -7,6 +7,7 @@ import CategoriasSaidaPage from './pages/CategoriasSaidaPage';
 import EntradasPage from './pages/EntradasPage';
 import SaidasPage from './pages/SaidasPage';
 import RecorrenciasPage from './pages/RecorrenciasPage';
+import LoginPage from './pages/LoginPage';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/entradas" element={<EntradasPage />} />
         <Route path="/saidas" element={<SaidasPage />} />
         <Route path="/recorrencias" element={<RecorrenciasPage />} />
+        <Route path="/login" element={<LoginPage />} />
       </Route>
     </Routes>
   );
