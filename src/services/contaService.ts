@@ -1,37 +1,36 @@
 import type { Conta, CriarContaRequest } from '../types/conta';
-
-import { API_URL } from '../config/api';
+import { apiFetch } from './ApiClient';
 
 export async function listarContas(): Promise<Conta[]> {
-    const response = await fetch(`${API_URL}/Contas`, {
-        method: 'GET'
-    });
+  const response = await apiFetch('/Contas', {
+    method: 'GET',
+  });
 
-    if (!response.ok){
-        throw new Error('Erro ao buscar contas');
-    }
+  if (!response.ok) {
+    throw new Error('Erro ao listar contas');
+  }
 
-    return response.json();
+  return response.json();
 }
 
 export async function criarConta(request: CriarContaRequest): Promise<Conta> {
-    const response = await fetch(`${API_URL}/Contas`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(request),
-    });
+  const response = await apiFetch('/Contas', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(request),
+  });
 
-    if (!response.ok){
-        throw new Error('Erro ao criar conta');
-    }
+  if (!response.ok) {
+    throw new Error('Erro ao criar conta');
+  }
 
-    return response.json();
+  return response.json();
 }
 
 export async function atualizarConta(id: string, request: CriarContaRequest): Promise<Conta> {
-  const response = await fetch(`${API_URL}/Contas/${id}`, {
+  const response = await apiFetch(`/Contas/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -47,7 +46,7 @@ export async function atualizarConta(id: string, request: CriarContaRequest): Pr
 }
 
 export async function excluirConta(id: string): Promise<void> {
-  const response = await fetch(`${API_URL}/Contas/${id}`, {
+  const response = await apiFetch(`/Contas/${id}`, {
     method: 'DELETE',
   });
 

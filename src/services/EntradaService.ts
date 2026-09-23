@@ -1,8 +1,8 @@
 import type { Entrada, CriarEntradaRequest } from '../types/entrada';
-import { API_URL } from '../config/api';
+import { apiFetch } from './ApiClient';
 
 export async function listarEntradas(): Promise<Entrada[]> {
-  const response = await fetch(`${API_URL}/Entradas`, {
+  const response = await apiFetch('/Entradas', {
     method: 'GET',
   });
 
@@ -14,11 +14,9 @@ export async function listarEntradas(): Promise<Entrada[]> {
 }
 
 export async function criarEntrada(request: CriarEntradaRequest): Promise<Entrada> {
-  const response = await fetch(`${API_URL}/Entradas`, {
+  const response = await apiFetch('/Entradas', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(request),
   });
 
@@ -30,21 +28,24 @@ export async function criarEntrada(request: CriarEntradaRequest): Promise<Entrad
 }
 
 export async function atualizarEntrada(id: string, request: CriarEntradaRequest): Promise<Entrada> {
-  const response = await fetch(`${API_URL}/Entradas/${id}`, {
+  const response = await apiFetch(`/Entradas/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(request),
   });
+
   if (!response.ok) {
     throw new Error('Erro ao atualizar entrada');
   }
+
   return response.json();
 }
 
 export async function excluirEntrada(id: string): Promise<void> {
-  const response = await fetch(`${API_URL}/Entradas/${id}`, {
+  const response = await apiFetch(`/Entradas/${id}`, {
     method: 'DELETE',
   });
+
   if (!response.ok) {
     throw new Error('Erro ao excluir entrada');
   }

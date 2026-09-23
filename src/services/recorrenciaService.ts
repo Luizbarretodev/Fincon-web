@@ -1,8 +1,8 @@
 import type { Recorrencia, CriarRecorrenciaRequest } from '../types/recorrencia';
-import { API_URL } from '../config/api';
+import { apiFetch } from './ApiClient';
 
 export async function listarRecorrencias(): Promise<Recorrencia[]> {
-  const response = await fetch(`${API_URL}/Recorrencias`, {
+  const response = await apiFetch('/Recorrencias', {
     method: 'GET',
   });
 
@@ -14,11 +14,9 @@ export async function listarRecorrencias(): Promise<Recorrencia[]> {
 }
 
 export async function criarRecorrencia(request: CriarRecorrenciaRequest): Promise<Recorrencia> {
-  const response = await fetch(`${API_URL}/Recorrencias`, {
+  const response = await apiFetch('/Recorrencias', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(request),
   });
 
@@ -30,21 +28,24 @@ export async function criarRecorrencia(request: CriarRecorrenciaRequest): Promis
 }
 
 export async function atualizarRecorrencia(id: string, request: CriarRecorrenciaRequest): Promise<Recorrencia> {
-  const response = await fetch(`${API_URL}/Recorrencias/${id}`, {
+  const response = await apiFetch(`/Recorrencias/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(request),
   });
+
   if (!response.ok) {
     throw new Error('Erro ao atualizar recorrencia');
   }
+
   return response.json();
 }
 
 export async function excluirRecorrencia(id: string): Promise<void> {
-  const response = await fetch(`${API_URL}/Recorrencias/${id}`, {
+  const response = await apiFetch(`/Recorrencias/${id}`, {
     method: 'DELETE',
   });
+
   if (!response.ok) {
     throw new Error('Erro ao excluir recorrencia');
   }
