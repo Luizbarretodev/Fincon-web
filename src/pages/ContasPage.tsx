@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { listarContas } from '../services/contaService';
 import type { Conta } from '../types/conta';
-import ContaForm from '../components/ContaForm';
-import ContaList from '../components/ContaList';
+import ContaForm from '../components/Conta/ContaForm';
+import ContaList from '../components/Conta/ContaList';
 
 function ContasPage() {
   const [contas, setContas] = useState<Conta[]>([]);

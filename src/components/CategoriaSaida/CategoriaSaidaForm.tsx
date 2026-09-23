@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
-import { criarCategoriaEntrada, atualizarCategoriaEntrada } from '../services/CategoriaEntradaService';
-import type { CategoriaEntrada } from '../types/categoria';
+import { criarCategoriaSaida, atualizarCategoriaSaida } from '../../services/categoriaSaidaService';
+import type { CategoriaSaida } from '../../types/categoria';
 
-interface CategoriaEntradaFormProps {
-  categoriaEditando: CategoriaEntrada | null;
+interface CategoriaSaidaFormProps {
+  categoriaEditando: CategoriaSaida | null;
   onSalvar: () => void;
 }
 
-function CategoriaEntradaForm({ categoriaEditando, onSalvar }: CategoriaEntradaFormProps) {
+function CategoriaSaidaForm({ categoriaEditando, onSalvar }: CategoriaSaidaFormProps) {
   const [nome, setNome] = useState('');
 
   useEffect(() => {
@@ -17,9 +17,9 @@ function CategoriaEntradaForm({ categoriaEditando, onSalvar }: CategoriaEntradaF
   async function handleSubmit() {
     try {
       if (categoriaEditando) {
-        await atualizarCategoriaEntrada(categoriaEditando.id, { nome });
+        await atualizarCategoriaSaida(categoriaEditando.id, { nome });
       } else {
-        await criarCategoriaEntrada({ nome });
+        await criarCategoriaSaida({ nome });
       }
       setNome('');
       onSalvar();
@@ -36,4 +36,4 @@ function CategoriaEntradaForm({ categoriaEditando, onSalvar }: CategoriaEntradaF
   );
 }
 
-export default CategoriaEntradaForm;
+export default CategoriaSaidaForm;

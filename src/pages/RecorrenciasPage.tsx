@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { listarRecorrencias } from '../services/recorrenciaService';
 import type { Recorrencia } from '../types/recorrencia';
-import RecorrenciaForm from '../components/RecorrenciaForm';
-import RecorrenciaList from '../components/RecorrenciaList';
+import RecorrenciaForm from '../components/Recorrencia/RecorrenciaForm'
+import RecorrenciaList from '../components/Recorrencia/RecorrenciaList';
 
 function RecorrenciasPage() {
   const [recorrencias, setRecorrencias] = useState<Recorrencia[]>([]);

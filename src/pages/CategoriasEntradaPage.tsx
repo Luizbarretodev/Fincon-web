@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { listarCategoriasEntrada } from '../services/categoriaEntradaService';
+import { listarCategoriasEntrada } from '../services/CategoriaEntradaService';
 import type { CategoriaEntrada } from '../types/categoria';
-import CategoriaEntradaForm from '../components/CategoriaEntradaForm';
-import CategoriaEntradaList from '../components/CategoriaEntradaList';
+import CategoriaEntradaForm from '../components/CategoriaEntrada/CategoriaEntradaForm';
+import CategoriaEntradaList from '../components/CategoriaEntrada/CategoriaEntradaList';
 
 function CategoriasEntradaPage() {
   const [categorias, setCategorias] = useState<CategoriaEntrada[]>([]);

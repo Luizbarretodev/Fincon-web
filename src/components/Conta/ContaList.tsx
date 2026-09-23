@@ -1,5 +1,5 @@
-import type { Conta } from '../types/conta';
-import { excluirConta } from '../services/contaService';
+import type { Conta } from '../../types/conta';
+import { excluirConta } from '../../services/contaService';
 
 interface ContaListProps {
   contas: Conta[];

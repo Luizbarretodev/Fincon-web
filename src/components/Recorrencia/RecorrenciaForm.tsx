@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { criarRecorrencia, atualizarRecorrencia } from '../services/recorrenciaService';
-import type { Recorrencia } from '../types/recorrencia';
-import type { TipoRecorrencia } from '../types/enums';
+import { criarRecorrencia, atualizarRecorrencia } from '../../services/recorrenciaService';
+import type { Recorrencia } from '../../types/recorrencia';
+import type { TipoRecorrencia } from '../../types/enums';
 
 interface RecorrenciaFormProps {
   recorrenciaEditando: Recorrencia | null;

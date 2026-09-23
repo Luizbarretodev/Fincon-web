@@ -1,5 +1,5 @@
-import type { CategoriaEntrada } from '../types/categoria';
-import { excluirCategoriaEntrada } from '../services/CategoriaEntradaService';
+import type { CategoriaEntrada } from '../../types/categoria';
+import { excluirCategoriaEntrada } from '../../services/CategoriaEntradaService';
 
 interface CategoriaEntradaListProps {
   categoriasEntrada: CategoriaEntrada[];

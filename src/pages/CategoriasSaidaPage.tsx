@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { listarCategoriasSaida } from '../services/categoriaSaidaService';
+import { listarCategoriasSaida } from '../services/CategoriaSaidaService';
 import type { CategoriaSaida } from '../types/categoria';
-import CategoriaSaidaForm from '../components/CategoriaSaidaForm';
-import CategoriaSaidaList from '../components/CategoriaSaidaList';
+import CategoriaSaidaForm from '../components/CategoriaSaida/CategoriaSaidaForm';
+import CategoriaSaidaList from '../components/CategoriaSaida/CategoriaSaidaList';
 
 function CategoriasSaidaPage() {
   const [categorias, setCategorias] = useState<CategoriaSaida[]>([]);

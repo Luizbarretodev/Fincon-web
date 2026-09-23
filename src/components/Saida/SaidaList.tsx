@@ -1,6 +1,6 @@
-import type { Saida } from '../types/saida';
-import { excluirSaida } from '../services/saidaService';
-import { formatarMoeda, formatarData } from '../utils/formatters';
+import type { Saida } from '../../types/saida';
+import { excluirSaida } from '../../services/saidaService';
+import { formatarMoeda, formatarData } from '../../utils/formatters';
 
 interface SaidaListProps {
   saidas: Saida[];

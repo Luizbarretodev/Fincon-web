@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { listarEntradas } from '../services/entradaService';
+import { listarEntradas } from '../services/EntradaService';
 import { listarSaidas } from '../services/saidaService';
 import { formatarMoeda } from '../utils/formatters';
 import type { Entrada } from '../types/entrada';

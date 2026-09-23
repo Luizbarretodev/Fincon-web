@@ -1,6 +1,6 @@
-import type { Entrada } from '../types/entrada';
-import { excluirEntrada } from '../services/entradaService';
-import { formatarMoeda, formatarData } from '../utils/formatters';
+import type { Entrada } from '../../types/entrada';
+import { excluirEntrada } from '../../services/EntradaService';
+import { formatarMoeda, formatarData } from '../../utils/formatters';
 
 interface EntradaListProps {
   entradas: Entrada[];

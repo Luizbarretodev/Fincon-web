@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { criarConta, atualizarConta } from '../services/contaService';
-import type { Conta } from '../types/conta';
+import { criarConta, atualizarConta } from '../../services/contaService';
+import type { Conta } from '../../types/conta';
 
 interface ContaFormProps {
   contaEditando: Conta | null;

@@ -1,5 +1,5 @@
-import type { Recorrencia } from '../types/recorrencia';
-import { excluirRecorrencia } from '../services/recorrenciaService';
+import type { Recorrencia } from '../../types/recorrencia';
+import { excluirRecorrencia } from '../../services/recorrenciaService';
 
 interface RecorrenciaListProps {
   recorrencias: Recorrencia[];

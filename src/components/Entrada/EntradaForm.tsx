@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import { criarEntrada, atualizarEntrada } from '../services/entradaService';
-import { listarContas } from '../services/contaService';
-import { listarCategoriasEntrada } from '../services/categoriaEntradaService';
-import type { Entrada } from '../types/entrada';
-import type { Conta } from '../types/conta';
-import type { CategoriaEntrada } from '../types/categoria';
-import type { StatusTransacao } from '../types/enums';
+import { criarEntrada, atualizarEntrada } from '../../services/EntradaService';
+import { listarContas } from '../../services/contaService';
+import { listarCategoriasEntrada } from '../../services/categoriaEntradaService';
+import type { Entrada } from '../../types/entrada';
+import type { Conta } from '../../types/conta';
+import type { CategoriaEntrada } from '../../types/categoria';
+import type { StatusTransacao } from '../../types/enums';
 
 interface EntradaFormProps {
   entradaEditando: Entrada | null;

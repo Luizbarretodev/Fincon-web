@@ -1,5 +1,5 @@
-import type { CategoriaSaida } from '../types/categoria';
-import { excluirCategoriaSaida } from '../services/categoriaSaidaService';
+import type { CategoriaSaida } from '../../types/categoria';
+import { excluirCategoriaSaida } from '../../services/categoriaSaidaService';
 
 interface CategoriaSaidaListProps {
   categoriasSaida: CategoriaSaida[];
