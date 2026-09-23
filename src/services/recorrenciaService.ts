@@ -1,5 +1,5 @@
 import type { Recorrencia, CriarRecorrenciaRequest } from '../types/recorrencia';
-import { apiFetch } from './ApiClient';
+import { apiFetch } from './apiClient';
 
 export async function listarRecorrencias(): Promise<Recorrencia[]> {
   const response = await apiFetch('/Recorrencias', {

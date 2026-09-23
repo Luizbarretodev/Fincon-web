@@ -1,5 +1,5 @@
 import type { Entrada, CriarEntradaRequest } from '../types/entrada';
-import { apiFetch } from './ApiClient';
+import { apiFetch } from './apiClient';
 
 export async function listarEntradas(): Promise<Entrada[]> {
   const response = await apiFetch('/Entradas', {

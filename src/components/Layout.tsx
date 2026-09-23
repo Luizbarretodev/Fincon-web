@@ -1,5 +1,5 @@
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { removerToken } from '../services/AuthService';
+import { removerToken } from '../services/authService';
 
 function Layout() {
   const navigate = useNavigate();

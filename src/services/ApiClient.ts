@@ -1,5 +1,5 @@
 import { API_URL } from '../config/api';
-import { obterToken } from './AuthService';
+import { obterToken } from './authService';
 
 export async function apiFetch(endpoint: string, options: RequestInit = {}): Promise<Response> {
   const token = obterToken();

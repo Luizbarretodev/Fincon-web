@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { obterToken } from '../services/AuthService';
+import { obterToken } from '../services/authService';
 
 function LoginRoute() {
   const token = obterToken();

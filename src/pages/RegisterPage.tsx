@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { registrar } from '../services/AuthService';
+import { registrar } from '../services/authService';
 
 function RegisterPage() {
   const [nome, setNome] = useState('');

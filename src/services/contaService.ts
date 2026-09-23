@@ -1,5 +1,5 @@
 import type { Conta, CriarContaRequest } from '../types/conta';
-import { apiFetch } from './ApiClient';
+import { apiFetch } from './apiClient';
 
 export async function listarContas(): Promise<Conta[]> {
   const response = await apiFetch('/Contas', {

@@ -1,5 +1,5 @@
 import type { Saida, CriarSaidaRequest } from '../types/saida';
-import { apiFetch } from './ApiClient';
+import { apiFetch } from './apiClient';
 
 export async function listarSaidas(): Promise<Saida[]> {
   const response = await apiFetch('/Saidas', {

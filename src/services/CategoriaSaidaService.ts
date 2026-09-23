@@ -1,5 +1,5 @@
 import type { CategoriaSaida, CriarCategoriaSaidaRequest } from '../types/categoria';
-import { apiFetch } from './ApiClient';
+import { apiFetch } from './apiClient';
 
 export async function listarCategoriasSaida(): Promise<CategoriaSaida[]> {
   const response = await apiFetch('/CategoriasSaida', {
