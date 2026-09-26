@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { registrar } from '../services/authService';
 import AuthTabs from '../components/AuthTabs';
+import { senhaValida } from '../utils/validarSenha';
 
 function RegisterPage() {
   const [nome, setNome] = useState('');
@@ -11,13 +12,18 @@ function RegisterPage() {
   const navigate = useNavigate();
 
   async function handleSubmit() {
-    try {
-      await registrar({ nome, email, senha });
-      navigate('/login');
-    } catch {
-      setErro('Erro ao registrar. Tente outro email.');
-    }
+  if (!senhaValida(senha)) {
+    setErro('A senha deve ter pelo menos 8 caracteres, uma letra maiúscula, um número e um caractere especial.');
+    return;
   }
+
+  try {
+    await registrar({ nome, email, senha });
+    navigate('/login');
+  } catch {
+    setErro('Erro ao registrar. Tente outro email.');
+  }
+}
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-paper px-4">
