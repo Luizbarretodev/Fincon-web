@@ -14,12 +14,11 @@ import {
 import { removerToken, obterNomeUsuario } from '../services/authService';
 
 const menuLinks = [
-  { to: '/', label: 'Dashboard', icone: LayoutDashboard },
+  { to: '/', label: 'Painel Inicial', icone: LayoutDashboard },
   { to: '/contas', label: 'Contas', icone: Wallet },
+  { to: '/categorias', label: 'Categorias', icone: Tag },
   { to: '/entradas', label: 'Entradas', icone: ArrowDownCircle },
   { to: '/saidas', label: 'Saídas', icone: ArrowUpCircle },
-  { to: '/categorias-entrada', label: 'Cat. Entrada', icone: Tag },
-  { to: '/categorias-saida', label: 'Cat. Saída', icone: Tag },
   { to: '/recorrencias', label: 'Recorrências', icone: Repeat },
 ];
 

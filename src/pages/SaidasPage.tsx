@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { listarSaidas } from '../services/saidaService';
 import type { Saida } from '../types/saida';
-import SaidaForm from '../components/Saida/SaidaForm';
-import SaidaList from '../components/Saida/SaidaList';
+import SaidaForm from '../components/Movimentacoes/SaidaForm';
+import SaidaList from '../components/Movimentacoes/SaidaList';
 
 function SaidasPage() {
   const [saidas, setSaidas] = useState<Saida[]>([]);

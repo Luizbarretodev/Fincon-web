@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { listarEntradas } from '../services/entradaService';
 import type { Entrada } from '../types/entrada';
-import EntradaForm from '../components/Entrada/EntradaForm';
-import EntradaList from '../components/Entrada/EntradaList';
+import EntradaForm from '../components/Movimentacoes/EntradaForm';
+import EntradaList from '../components/Movimentacoes/EntradaList';
 
 function EntradasPage() {
   const [entradas, setEntradas] = useState<Entrada[]>([]);
