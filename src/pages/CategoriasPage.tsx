@@ -32,10 +32,6 @@ function CategoriasPage() {
   return (
     <div className="space-y-6">
       <div>
-        <div className="flex items-center gap-2 text-xs text-gold font-medium mb-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-gold inline-block" />
-          Organização financeira
-        </div>
         <h1 className="font-display font-semibold text-2xl text-ink">Categorias</h1>
       </div>
 

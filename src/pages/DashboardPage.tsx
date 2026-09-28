@@ -14,6 +14,8 @@ import type { Conta } from '../types/conta';
 import type { CategoriaEntrada, CategoriaSaida } from '../types/categoria';
 import type { Entrada } from '../types/entrada';
 import type { Saida } from '../types/saida';
+import SeletorMes from '../components/SeletorMes';
+import { filtrarPorMes } from '../utils/data';
 
 function saudacao(): string {
   const hora = new Date().getHours();
@@ -31,6 +33,7 @@ function DashboardPage() {
   const [entradas, setEntradas] = useState<Entrada[]>([]);
   const [saidas, setSaidas] = useState<Saida[]>([]);
   const [carregando, setCarregando] = useState(true);
+  const [mesSelecionado, setMesSelecionado] = useState(new Date());
 
   useEffect(() => {
     carregarTudo();
@@ -64,16 +67,23 @@ function DashboardPage() {
   const totalReceitas = entradas.reduce((soma, e) => soma + e.valor, 0);
   const totalDespesas = saidas.reduce((soma, s) => soma + s.valor, 0);
   const saldo = totalReceitas - totalDespesas;
+  const entradasDoMes = filtrarPorMes(entradas, mesSelecionado);
+  const saidasDoMes = filtrarPorMes(saidas, mesSelecionado);
+
+  const totalReceitasMes = entradasDoMes.reduce((soma, e) => soma + e.valor, 0);
+  const totalDespesasMes = saidasDoMes.reduce((soma, s) => soma + s.valor, 0);
+  const saldoMensal = totalReceitasMes - totalDespesasMes;
 
   const nomesEntradaPorId = Object.fromEntries(categoriasEntrada.map((c) => [c.id, c.nome]));
   const nomesSaidaPorId = Object.fromEntries(categoriasSaida.map((c) => [c.id, c.nome]));
 
   const entradasPorCategoria = agruparPorCategoria(
-    entradas.map((e) => ({ categoriaId: e.categoriaEntradaId, valor: e.valor })),
+    entradasDoMes.map((e) => ({ categoriaId: e.categoriaEntradaId, valor: e.valor })),
     nomesEntradaPorId
   );
+
   const saidasPorCategoria = agruparPorCategoria(
-    saidas.map((s) => ({ categoriaId: s.categoriaSaidaId, valor: s.valor })),
+    saidasDoMes.map((s) => ({ categoriaId: s.categoriaSaidaId, valor: s.valor })),
     nomesSaidaPorId
   );
 
@@ -85,17 +95,20 @@ function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="font-display font-semibold text-2xl text-ink">
-          {saudacao()}, {obterNomeUsuario() ?? 'usuário'}
-        </h1>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="font-display font-semibold text-2xl text-ink">
+            {saudacao()}, {obterNomeUsuario() ?? 'usuário'}
+          </h1>
+        </div>
+        <SeletorMes mes={mesSelecionado} onMudar={setMesSelecionado} />
       </div>
 
       <div className="grid grid-cols-4 gap-4">
         <StatCard label="Saldo atual" valor={formatarMoeda(saldo)} icone={Wallet} destaque />
-        <StatCard label="Receitas" valor={formatarMoeda(totalReceitas)} icone={TrendingUp} corIcone="bg-income/10 text-income" />
-        <StatCard label="Despesas" valor={formatarMoeda(totalDespesas)} icone={TrendingDown} corIcone="bg-expense/10 text-expense" />
-        <StatCard label="Saldo líquido" valor={formatarMoeda(saldo)} icone={Scale} corIcone="bg-gold/10 text-gold" />
+        <StatCard label="Receitas do mês" valor={formatarMoeda(totalReceitasMes)} icone={TrendingUp} corIcone="bg-income/10 text-income" />
+        <StatCard label="Despesas do mês" valor={formatarMoeda(totalDespesasMes)} icone={TrendingDown} corIcone="bg-expense/10 text-expense" />
+        <StatCard label="Saldo mensal" valor={formatarMoeda(saldoMensal)} icone={Scale} corIcone="bg-gold/10 text-gold" />
       </div>
 
       <div className="grid grid-cols-3 gap-6">
