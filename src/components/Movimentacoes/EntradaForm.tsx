@@ -10,9 +10,14 @@ import type { StatusTransacao } from '../../types/enums';
 interface EntradaFormProps {
   entradaEditando: Entrada | null;
   onSalvar: () => void;
+  onFechar?: () => void;
 }
 
-function EntradaForm({ entradaEditando, onSalvar }: EntradaFormProps) {
+const inputClass =
+  'w-full border border-border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gold/40 focus:border-gold';
+const labelClass = 'text-xs text-ink/60 mb-1 block';
+
+function EntradaForm({ entradaEditando, onSalvar, onFechar }: EntradaFormProps) {
   const [data, setData] = useState('');
   const [valor, setValor] = useState('');
   const [descricao, setDescricao] = useState('');
@@ -24,11 +29,11 @@ function EntradaForm({ entradaEditando, onSalvar }: EntradaFormProps) {
   const [categorias, setCategorias] = useState<CategoriaEntrada[]>([]);
 
   useEffect(() => {
-    carregarContas();
+    listarContas().then(setContas);
   }, []);
 
   useEffect(() => {
-    carregarCategorias();
+    listarCategoriasEntrada().then(setCategorias);
   }, []);
 
   useEffect(() => {
@@ -48,26 +53,9 @@ function EntradaForm({ entradaEditando, onSalvar }: EntradaFormProps) {
     }
   }, [entradaEditando]);
 
-  async function carregarContas() {
-    const dados = await listarContas();
-    setContas(dados);
-  }
-
-  async function carregarCategorias() {
-    const dados = await listarCategoriasEntrada();
-    setCategorias(dados);
-  }
-
   async function handleSubmit() {
     try {
-      const request = {
-        data,
-        valor: Number(valor),
-        descricao,
-        status,
-        contaId,
-        categoriaEntradaId,
-      };
+      const request = { data, valor: Number(valor), descricao, status, contaId, categoriaEntradaId };
 
       if (entradaEditando) {
         await atualizarEntrada(entradaEditando.id, request);
@@ -81,37 +69,97 @@ function EntradaForm({ entradaEditando, onSalvar }: EntradaFormProps) {
       setContaId('');
       setCategoriaEntradaId('');
       onSalvar();
+      onFechar?.();
     } catch (erro) {
       console.error(erro);
     }
   }
 
   return (
-    <div>
-      <input type="date" value={data} onChange={(e) => setData(e.target.value)} />
-      <input type="number" value={valor} onChange={(e) => setValor(e.target.value)} placeholder="Valor" />
-      <input type="text" value={descricao} onChange={(e) => setDescricao(e.target.value)} placeholder="Descrição" />
+    <div className="space-y-3">
+      <div>
+        <label className={labelClass}>Descrição</label>
+        <input
+          type="text"
+          value={descricao}
+          onChange={(e) => setDescricao(e.target.value)}
+          placeholder="Ex: Salário, freelance..."
+          className={inputClass}
+        />
+      </div>
 
-      <select value={status} onChange={(e) => setStatus(e.target.value as StatusTransacao)}>
-        <option value="Confirmada">Confirmada</option>
-        <option value="Pendente">Pendente</option>
-      </select>
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <label className={labelClass}>Data</label>
+          <input type="date" value={data} onChange={(e) => setData(e.target.value)} className={inputClass} />
+        </div>
+        <div>
+          <label className={labelClass}>Valor</label>
+          <input
+            type="number"
+            value={valor}
+            onChange={(e) => setValor(e.target.value)}
+            placeholder="0,00"
+            className={inputClass}
+          />
+        </div>
+      </div>
 
-      <select value={contaId} onChange={(e) => setContaId(e.target.value)}>
-        <option value="">Selecione uma conta</option>
-        {contas.map((conta) => (
-          <option key={conta.id} value={conta.id}>{conta.nome}</option>
-        ))}
-      </select>
+      <div className="grid grid-cols-2 gap-3">
+        <div>
+          <label className={labelClass}>Conta</label>
+          <select value={contaId} onChange={(e) => setContaId(e.target.value)} className={inputClass}>
+            <option value="">Selecione</option>
+            {contas.map((conta) => (
+              <option key={conta.id} value={conta.id}>{conta.nome}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className={labelClass}>Categoria</label>
+          <select value={categoriaEntradaId} onChange={(e) => setCategoriaEntradaId(e.target.value)} className={inputClass}>
+            <option value="">Selecione</option>
+            {categorias.map((categoria) => (
+              <option key={categoria.id} value={categoria.id}>{categoria.nome}</option>
+            ))}
+          </select>
+        </div>
+      </div>
 
-      <select value={categoriaEntradaId} onChange={(e) => setCategoriaEntradaId(e.target.value)}>
-        <option value="">Selecione uma categoria</option>
-        {categorias.map((categoria) => (
-          <option key={categoria.id} value={categoria.id}>{categoria.nome}</option>
-        ))}
-      </select>
+      <div>
+        <label className={labelClass}>Status</label>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={() => setStatus('Confirmada')}
+            className={`flex-1 text-sm py-2 rounded-lg border transition-colors ${
+              status === 'Confirmada'
+                ? 'bg-income/10 border-income text-income font-medium'
+                : 'border-border text-ink/50 hover:border-ink/20'
+            }`}
+          >
+            Confirmada
+          </button>
+          <button
+            type="button"
+            onClick={() => setStatus('Pendente')}
+            className={`flex-1 text-sm py-2 rounded-lg border transition-colors ${
+              status === 'Pendente'
+                ? 'bg-gold/10 border-gold text-gold font-medium'
+                : 'border-border text-ink/50 hover:border-ink/20'
+            }`}
+          >
+            Pendente
+          </button>
+        </div>
+      </div>
 
-      <button onClick={handleSubmit}>{entradaEditando ? 'Salvar Edição' : 'Criar Entrada'}</button>
+      <button
+        onClick={handleSubmit}
+        className="w-full bg-income text-white text-sm font-medium py-2.5 rounded-lg hover:bg-income/90 transition-colors mt-2"
+      >
+        {entradaEditando ? 'Salvar edição' : 'Adicionar entrada'}
+      </button>
     </div>
   );
 }

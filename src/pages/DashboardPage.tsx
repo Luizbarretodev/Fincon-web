@@ -16,6 +16,10 @@ import type { Entrada } from '../types/entrada';
 import type { Saida } from '../types/saida';
 import SeletorMes from '../components/SeletorMes';
 import { filtrarPorMes } from '../utils/data';
+import Modal from '../components/Modal';
+import EntradaForm from '../components/Movimentacoes/EntradaForm';
+import SaidaForm from '../components/Movimentacoes/SaidaForm';
+import { Plus } from 'lucide-react';
 
 function saudacao(): string {
   const hora = new Date().getHours();
@@ -34,6 +38,7 @@ function DashboardPage() {
   const [saidas, setSaidas] = useState<Saida[]>([]);
   const [carregando, setCarregando] = useState(true);
   const [mesSelecionado, setMesSelecionado] = useState(new Date());
+  const [modalAberto, setModalAberto] = useState<'entrada' | 'saida' | null>(null);
 
   useEffect(() => {
     carregarTudo();
@@ -101,7 +106,23 @@ function DashboardPage() {
             {saudacao()}, {obterNomeUsuario() ?? 'usuário'}
           </h1>
         </div>
-        <SeletorMes mes={mesSelecionado} onMudar={setMesSelecionado} />
+        <div className="flex items-center gap-3">
+          <div className="flex gap-2">
+            <button
+              onClick={() => setModalAberto('entrada')}
+              className="flex items-center gap-2 bg-income/10 text-income text-sm font-medium px-4 py-2 rounded-lg hover:bg-income/20 transition-colors"
+            >
+              <Plus size={16} /> Entrada
+            </button>
+            <button
+              onClick={() => setModalAberto('saida')}
+              className="flex items-center gap-2 bg-expense/10 text-expense text-sm font-medium px-4 py-2 rounded-lg hover:bg-expense/20 transition-colors"
+            >
+              <Plus size={16} /> Saída
+            </button>
+          </div>
+          <SeletorMes mes={mesSelecionado} onMudar={setMesSelecionado} />
+        </div>
       </div>
 
       <div className="grid grid-cols-4 gap-4">
@@ -137,6 +158,14 @@ function DashboardPage() {
           </div>
         </div>
       </div>
+
+      <Modal titulo="Nova Entrada" aberto={modalAberto === 'entrada'} onFechar={() => setModalAberto(null)}>
+        <EntradaForm entradaEditando={null} onSalvar={carregarTudo} onFechar={() => setModalAberto(null)} />
+      </Modal>
+
+      <Modal titulo="Nova Saída" aberto={modalAberto === 'saida'} onFechar={() => setModalAberto(null)}>
+        <SaidaForm saidaEditando={null} onSalvar={carregarTudo} onFechar={() => setModalAberto(null)} />
+      </Modal>
     </div>
   );
 }
